@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mood Study App</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#111;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh} .app{width:95%;max-width:420px;background:#1b1b1b;padding:20px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.4)} h1{text-align:center;font-size:24px} .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px 0}.btn{padding:14px;border:none;border-radius:14px;font-size:16px;cursor:pointer}.btn:hover{opacity:.9}.card{background:#2a2a2a;padding:15px;border-radius:16px;margin-top:12px}.timer{font-size:34px;text-align:center;margin:10px 0}.small{text-align:center;color:#bbb;font-size:13px} a{color:#7cc7ff} </style>
+</head>
+<body><div class='app'>
+<h1>🎧 Mood Study App</h1>
+<div class='small'>Pick your mood</div>
+<div class='grid'>
+<button class='btn' onclick="setMood('sad')">😢 Sad</button>
+<button class='btn' onclick="setMood('motivated')">🔥 Motivated</button>
+<button class='btn' onclick="setMood('lazy')">😴 Lazy</button>
+<button class='btn' onclick="setMood('happy')">😊 Happy</button>
+</div>
+<div id='result' class='card'>Choose a mood to begin.</div>
+<div class='card'>
+<div class='small'>Study Timer</div>
+<div id='timer' class='timer'>25:00</div>
+<div class='grid'>
+<button class='btn' onclick='startTimer()'>▶ Start</button>
+<button class='btn' onclick='resetTimer()'>⟲ Reset</button>
+</div></div>
+</div>
+<script>
+const moods={sad:{c:'#3b82f6',song:'https://open.spotify.com/search/calm%20study',quote:'Bad days do not last.',time:15},motivated:{c:'#ef4444',song:'https://open.spotify.com/search/focus%20playlist',quote:'Discipline beats motivation.',time:45},lazy:{c:'#22c55e',song:'https://open.spotify.com/search/energy%20music',quote:'Start small, start now.',time:10},happy:{c:'#eab308',song:'https://open.spotify.com/search/happy%20study',quote:'Keep the vibe alive.',time:25}};
+let total=1500,run=null;
+function setMood(m){let x=moods[m];document.body.style.background=x.c;total=x.time*60;show();document.getElementById('result').innerHTML=`<b>${m.toUpperCase()}</b><br>💬 ${x.quote}<br>🎵 <a target='_blank' href='${x.song}'>Open Playlist</a><br>⏱ ${x.time} min focus session`;resetRun();}
+function show(){let m=Math.floor(total/60),s=total%60;document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function startTimer(){if(run)return;run=setInterval(()=>{if(total>0){total--;show();}else{clearInterval(run);run=null;alert('Session Complete! 🎉');}},1000)}
+function resetRun(){clearInterval(run);run=null;show();}
+function resetTimer(){resetRun();}
+show();
+</script></body></html>
